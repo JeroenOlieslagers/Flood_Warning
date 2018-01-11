@@ -26,10 +26,11 @@ class MonitoringStation:
 
         self.latest_level = None
 
+
     def __repr__(self):
-        d = "Station name:     {}\n".format(self.name)
+        d =  "Station name:     {}\n".format(self.name)
         d += "   id:            {}\n".format(self.station_id)
-        d += " measure id: {}\n".format(self.measure_id)
+        d += "   measure id:    {}\n".format(self.measure_id)
         d += "   coordinate:    {}\n".format(self.coord)
         d += "   town:          {}\n".format(self.town)
         d += "   river:         {}\n".format(self.river)

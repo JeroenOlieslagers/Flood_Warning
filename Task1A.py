@@ -7,7 +7,7 @@ def run():
     # Build list of stations
     stations = build_station_list()
 
-    # Count number of stations and print
+    # Print number of stations
     print("Number of stations: {}".format(len(stations)))
 
     # Display data from 3 stations:
@@ -18,6 +18,4 @@ def run():
 
 if __name__ == "__main__":
     print("*** Task 1A: CUED Part IA Flood Warning System ***")
-
-    # Run Task1A
     run()
