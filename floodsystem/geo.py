@@ -6,6 +6,33 @@ from floodsystem.stationdata import build_station_list
 import numpy as np
 from floodsystem.utils import sorted_by_key
 
+
+def rivers_with_station(stations):
+    """Returns all rivers by name with a monitoring station"""
+    #Creates empty list of rivers
+    rivers = []
+    #Adds station rivers to list if station is attributed to a river
+    for station in stations:
+        if station.river!=None:
+            rivers.append(station.river)
+    #Converts list of rivers to a set, removing duplicates
+    rivers_set = set(rivers)
+    return(rivers_set)
+
+def stations_by_river(stations):
+    """Returns a dictionary mapping river names to a list of stations
+    on a given river"""
+    #Creates empty dictionary of rivers
+    stationsbyriver={}
+    #Checks if river is in dictionary and adds river and/or
+    #station accordingly
+    for station in stations:
+        if station.river not in stationsbyriver:
+            stationsbyriver[station.river]=[station.name]
+        else:
+            stationsbyriver[station.river].append(station.name)
+    return stationsbyriver
+
 def haversine(coord1, coord2):
     """Returns the distance between two points given their coordinates in 
     a tuple or list using the definition of a haversine """
