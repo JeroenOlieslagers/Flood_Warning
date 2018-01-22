@@ -34,8 +34,8 @@ def stations_by_river(stations):
     return stationsbyriver
 
 def haversine(coord1, coord2):
-    """Returns the distance between two points given their coordinates in 
-    a tuple or list using the definition of a haversine """
+    """Returns the distance between two points in kilometres given their 
+    coordinates in a tuple or list using the definition of a haversine """
     
     #Converting latitude and longitude into radians
     lat1 = (coord1[0]*np.pi)/180
@@ -47,8 +47,8 @@ def haversine(coord1, coord2):
     r = 6371000
     
     #Using definition of haversine to find distance
-    return 2*r*np.arcsin(np.sqrt(np.sin((lat2-lat1)/2)**2+np.cos(lat1)*np.cos(
-            lat2)*np.sin((long2-long1)/2)**2))
+    return (2*r*np.arcsin(np.sqrt(np.sin((lat2-lat1)/2)**2+np.cos(lat1)*np.cos(
+            lat2)*np.sin((long2-long1)/2)**2)))/1000
 
 def station_by_distance(stations, p):
     """ This function returns a list of (station, distance) tuples,
@@ -58,7 +58,6 @@ def station_by_distance(stations, p):
     #Initialising variables
     latlong = []
     b = []
-    towns = []
     names = []
     data = build_station_list()
     d = []
@@ -71,8 +70,7 @@ def station_by_distance(stations, p):
             if stations[x] == ID.name:
                 #If name of dummy is in list, add its coordinates to latlong
                 latlong.append(ID.coord)
-                towns.append(ID.town)
-                b.append(ID.name)
+                b.append(ID)
             else:
                 pass
             
@@ -82,13 +80,20 @@ def station_by_distance(stations, p):
     
     #Create sorted list of tuples
     for z in range(0, len(stations)):
-        ls.append((b[z],towns[z], d[z]))
+        ls.append((b[z], d[z]))
     
     #Sort list by smallest distance
-    ls = sorted_by_key(ls, 2)
+    ls = sorted_by_key(ls, 1)
     
     return ls
 
+def stations_within_radius(stations, centre, r):
+    """ This function returns a list of all stations (type MonitoringStation) 
+    within radius r of a geographic coordinate centre."""
+    #Initialising variables
+    data = build_station_list()
+     
+     
 
 
 
