@@ -7,6 +7,9 @@ import numpy as np
 from floodsystem.utils import sorted_by_key
 from dateutil import parser
 from datetime import *
+import plotly.plotly as py
+import plotly
+
 
 
 def rivers_with_station(stations):
@@ -107,6 +110,91 @@ def stations_by_opening_date(stations):
     #Add stations and age from current date to list
     for station in stations:
         ls.append((station, age_in_years(station.dateOpened)))
+        
+def present_on_map(stations):
+    """ Presents station on map of UK with colour intensities related to 
+    typical high range. """
+    
+    #Log in to plotly
+    plotly.tools.set_credentials_file(username='joliesla', 
+                                      api_key='f4LO82wNWQlR4JUh2wpF')
+    
+    #Initialise variables
+    long = []
+    lati = []
+    desc = []
+    level = []
+    
+    #Create lists of required data
+    for station in stations:
+        if station.typical_range == None:
+            pass
+        elif station.river == None:
+            pass
+        elif station.town == None:
+            pass
+        else:
+            long.append(station.coord[1])
+            lati.append(station.coord[0])
+            desc.append(station.name + 
+                        station.town + 
+                        station.river + 
+                        str(station.typical_range[1]))
+            level.append(station.typical_range[1])
+        
+    #Set colour scale for legend
+    scl = [ [0,"rgb(5, 10, 172)"],[0.35,"rgb(40, 60, 190)"],
+             [0.5,"rgb(70, 100, 245)"],[0.6,"rgb(90, 120, 245)"],
+             [0.7,"rgb(106, 137, 247)"],[1,"rgb(220, 220, 220)"] ]
+    
+    #Create dictionary for scatter map data
+    data = [dict(
+            type = 'scattergeo',
+            locations = 'GBR',
+            lon = long,
+            lat = lati,
+            text = desc,
+            mode = 'markers',
+            marker = dict(
+                size = 8,
+                opacity = 0.8,
+                reversescale = True,
+                autocolorscale = False,
+                symbol = 'circle',
+                line = dict(
+                    width=1,
+                    color='rgba(102, 102, 102)'
+                ),
+                colorscale = scl,
+                cmin = 0,
+                color = level,
+                cmax = max(level),
+                colorbar=dict(
+                    title="Water Levels UK"
+                )
+            ))]
+     
+    #Create layout for map    
+    layout = dict(
+        title = 'Water levels UK<br>(Hover for station names)',
+        colorbar = True,
+        geo = dict(
+            scope='europe',
+            projection=dict( type='mercator' ),
+            showland = True,
+            landcolor = "rgb(250, 250, 250)",
+            subunitcolor = "rgb(217, 217, 217)",
+            countrycolor = "rgb(217, 217, 217)",
+            countrywidth = 0.5,
+            subunitwidth = 0.5
+        ),
+    )
+     
+    #Put together map and data
+    fig = dict(data=data, layout=layout)
+    py.plot(fig, validate=False, filename='UK-water_levels')
+    
+        
     
      
 
