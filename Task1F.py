@@ -6,11 +6,12 @@ def run():
     
     #Initialise variables
     data = build_station_list()
+    ID = []
     
     #Get list of stations with inconsistent typical range data
     ls = inconsistent_typical_range_stations(data)
     
-    #Add names of stations with inconsistent typical range data
+    #Add names of stations with inconsistent data
     for station in ls:
         ID.append(station.name)
         

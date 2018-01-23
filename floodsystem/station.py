@@ -63,3 +63,5 @@ def inconsistent_typical_range_stations(stations):
             ls.append(station)
         else:
             pass
+        
+    return ls
