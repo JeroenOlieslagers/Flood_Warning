@@ -91,8 +91,18 @@ def stations_within_radius(stations, centre, r):
     """ This function returns a list of all stations (type MonitoringStation) 
     within radius r of a geographic coordinate centre."""
     #Initialising variables
-    data = build_station_list()
-     
+    ls = []
+    
+    #Add Check if distance of station to centre is less than radius
+    for station in stations:
+        if haversine(station.coord, centre) < r:
+            ls.append(station)
+        else:
+            pass
+    
+    return ls
+    
+    
      
 
 
