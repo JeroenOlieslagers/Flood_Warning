@@ -32,6 +32,11 @@ def build_station_list(use_cache=True):
         river = None
         if 'riverName' in e:
             river = e['riverName']
+        
+        # Extract opening dat of station
+        dateOpened = None
+        if 'dateOpened' in e:
+            dateOpened = e['dateOpened']
 
         # Attempt to extract typical range (low, high)
         try:
@@ -50,7 +55,8 @@ def build_station_list(use_cache=True):
                                          float(e['long'])),
                                   typical_range=typical_range,
                                   river=river,
-                                  town=town)
+                                  town=town,
+                                  dateOpened = dateOpened)
             stations.append(s)
         except:
             # Not all required data on the station was available, so

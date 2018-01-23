@@ -5,16 +5,12 @@ from floodsystem.station import MonitoringStation
 def run():
     """Requirement for Task 1B"""
     
-    # Build list of stations
-    stations = []
+    # Build list of stations and initialise variables
     ID = []
-    build = build_station_list()
-    for station in build:
-        stations.append(station.name)
-        
+    data = build_station_list()
     
     #Create list of all stations closest to Cambridge city centre
-    ls = station_by_distance(stations, (52.2053, 0.1218))
+    ls = station_by_distance(data, (52.2053, 0.1218))
     
     #Select first and last 10 and print them
     for station in ls:
