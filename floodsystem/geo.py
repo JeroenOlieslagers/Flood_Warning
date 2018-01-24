@@ -11,7 +11,6 @@ import plotly.plotly as py
 import plotly
 
 
-
 def rivers_with_station(stations):
     """Returns all rivers by name with a monitoring station"""
     #Creates empty list of rivers
@@ -29,14 +28,45 @@ def stations_by_river(stations):
     on a given river"""
     #Creates empty dictionary of rivers
     stationsbyriver={}
-    #Checks if river is in dictionary and adds river and/or
-    #station accordingly
+    #Checks if river is in dictionary and adds river and/or station
+    #accordingly
     for station in stations:
         if station.river not in stationsbyriver:
             stationsbyriver[station.river]=[station.name]
         else:
             stationsbyriver[station.river].append(station.name)
     return stationsbyriver
+
+def rivers_by_station_number(stations, N):
+    """Determines the N rivers with the greatest number of monitoring
+    stations"""
+    #Creates empty dictionary for storing number of stations per river
+    rivers={}
+    #Checks if river is in dictionary and adds river and/or increases
+    #station count accordingly
+    for station in stations:
+        if station.river not in rivers:
+            rivers[station.river]=1
+        else:
+            rivers[station.river]+=1
+    #Creates empty list for rivers
+    rivers_list=[]
+    #Converts dictionary keys and values into tuples and adds them to list
+    for key, value in rivers.items():
+        rivers_list.append((key, value))
+    #Sorts tuples by number of stations
+    rivers_list.sort(key=lambda tup: tup[1], reverse=True)
+    #Adds first N rivers to final list
+    first_N_rivers=rivers_list[:N]
+    #Adds rivers with the same number of stations as the last river in
+    #final list
+    for n in range(N, len(rivers_list)-1):
+        if first_N_rivers[-1][1]==rivers_list[n][1]:
+            first_N_rivers.append(rivers_list[n])
+        else: break
+    return first_N_rivers
+
+#You are now entering the Jeroen Sector - proceed with caution
 
 def haversine(coord1, coord2):
     """Returns the distance between two points in kilometres given their 
@@ -67,8 +97,7 @@ def age_in_years(d1):
     
     #Calculates age in days and rounds to nearest year
     return round(abs((d2 - d1).days)/365.25)
-    
-    
+   
 def station_by_distance(stations, p):
     """ This function returns a list of (station, distance) tuples,
     where distance(float) is the distance of the station(MonitoringStation)
