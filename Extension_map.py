@@ -5,13 +5,12 @@ def run():
     """Requirement for extension"""
     #Build station list
     data = build_station_list()
-    ls = data
     
     #Run
-    present_on_map(ls)
+    present_on_map(data)
 
 
 if __name__ == "__main__":
-    print("*** Extension: CUED Part IA Flood Warning System ***")
+    print("*** Extension_map: CUED Part IA Flood Warning System ***")
     run()
 

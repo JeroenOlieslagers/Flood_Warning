@@ -85,18 +85,22 @@ def haversine(coord1, coord2):
     return (2*r*np.arcsin(np.sqrt(np.sin((lat2-lat1)/2)**2+np.cos(lat1)*np.cos(
             lat2)*np.sin((long2-long1)/2)**2)))/1000
 
-def age_in_years(d1):
-    """ Function that takes in dateOpened format dates from JSON file
-    and calculates how many years there are between it and the current date"""
+def age_in_years(stations):
+    """ Function that takes in MonitoringStation object and calculates how 
+    many years there are between its opening date and the current date,
+    returns a list of tuples with name of staion and age"""
     
-    #Get today's date
+    #Initialise variables
     d2 = date.today()
+    d = []
     
-    #Convert d1 to datetime object
-    d1 = parser.parse(d1).date()
-    
-    #Calculates age in days and rounds to nearest year
-    return round(abs((d2 - d1).days)/365.25)
+    for station in stations:
+         #Convert to datetime object
+        d1 = parser.parse(station.dateOpened).date()
+        #Calculates age in days and rounds to nearest year
+        d.append((station, round(abs((d2 - d1).days)/365.25)))
+        
+    return sorted_by_key(d, 1)
    
 def station_by_distance(stations, p):
     """ This function returns a list of (station, distance) tuples,
@@ -108,7 +112,8 @@ def station_by_distance(stations, p):
     
     #Add stations and distance of station from p to list
     for station in stations:
-        ls.append((station, haversine(station.coord, p)))
+        distance = haversine(station.coord, p)
+        ls.append((station, distance))
     
     #Returns list sorted by distance
     return sorted_by_key(ls, 1)
@@ -128,17 +133,6 @@ def stations_within_radius(stations, centre, r):
             pass
     
     return ls
-
-def stations_by_opening_date(stations):
-    """ Returns a list of stations (type MonitoringStation) in ascending order
-    of age and also displays the age."""
-    
-    #Initialising variables
-    ls = []
-    
-    #Add stations and age from current date to list
-    for station in stations:
-        ls.append((station, age_in_years(station.dateOpened)))
         
 def present_on_map(stations):
     """ Presents station on map of UK with colour intensities related to 
