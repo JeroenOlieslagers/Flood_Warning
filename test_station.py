@@ -43,4 +43,3 @@ def test_inconsistent_monitoring_station_data():
     
     assert s.typical_range_consistent() == False
     
-test_inconsistent_monitoring_station_data()

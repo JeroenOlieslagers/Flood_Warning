@@ -1,7 +1,6 @@
 """Unit test for the geo module"""
 
 import pytest
-import floodsystem.geo as geo
 from floodsystem.stationdata import build_station_list
 
 def test_haversine():
@@ -13,7 +12,7 @@ def test_haversine():
     ls = [1569, 1444, 8244, 7032]
     
     for n in range(0, len(ls)):
-        assert round(geo.haversine(coord[n], (0,0))) == ls[n]
+        assert round(haversine(coord[n], (0,0))) == ls[n]
 
 def test_age_in_years():
     #Initialise variables
@@ -22,7 +21,7 @@ def test_age_in_years():
     data = build_station_list()
 
     #Get age of dates
-    ID = geo.age_in_years(data[:5])
+    ID = age_in_years(data[:5])
     for station, age in ID:
         ls.append(age)
     
@@ -38,7 +37,7 @@ def test_station_by_distance():
     ls = []
     
     #Create list of all stations closest to Cambridge city centre
-    ID = geo.station_by_distance(data[:5], (52.2053, 0.1218))
+    ID = station_by_distance(data[:5], (52.2053, 0.1218))
     for item in ID:
         ls.append(round(item[1],1))
     
@@ -57,4 +56,3 @@ def test_stations_within_radius():
     
     #Check if list contains correct number of objects
     assert len(data) == 22
-    
