@@ -3,8 +3,8 @@ JSON objects fetched from the Internet and
 
 """
 
-from floodsystem.station import MonitoringStation
-import floodsystem.datafetcher as datafetcher
+from station import MonitoringStation
+import datafetcher as datafetcher
 
 
 def build_station_list(use_cache=True):
