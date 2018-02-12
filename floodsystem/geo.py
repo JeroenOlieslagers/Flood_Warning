@@ -2,9 +2,9 @@
 geographical data.
 
 """
-from stationdata import build_station_list
+from floodsystem.stationdata import build_station_list
 import numpy as np
-from utils import sorted_by_key
+from floodsystem.utils import sorted_by_key
 from dateutil import parser
 from datetime import *
 import plotly.plotly as py
