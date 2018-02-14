@@ -126,6 +126,7 @@ def fetch_measure_levels(measure_id, dt):
 
     # Extract dates and levels
     dates, levels = [], []
+
     for measure in data['items']:
         # Convert date-time string to a datetime object
         d = dateutil.parser.parse(measure['dateTime'])
@@ -135,3 +136,17 @@ def fetch_measure_levels(measure_id, dt):
         levels.append(measure['value'])
 
     return dates, levels
+
+def count_inconsistent_sets(stations, dt):
+    """Returns number of stations which have an invalid set of levels"""
+    
+    #Initialise variables
+    c = 0
+    
+    for station in stations:
+        dates, levels = fetch_measure_levels(station.measure_id, 
+                                             dt=datetime.timedelta(days=dt))
+        if levels == []:
+            c +=1
+            
+    return c
