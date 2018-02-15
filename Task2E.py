@@ -11,8 +11,8 @@ def run():
     ls = []
     ID = []
     dt = 5
-    limit = 2
-    number = 3
+    limit = 600
+    number = 9
     
     #Create list of measuring_id's sorted by water level
     for station in data:

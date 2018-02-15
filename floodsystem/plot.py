@@ -21,11 +21,11 @@ def plot_water_levels(stations, dt, limit, s):
     daysFmt = mdates.DateFormatter('%d-%m')
     
     #Get list of measuring_id's and rel water level
-    for station in stations:
-        ls.append((station.measure_id, station.typical_range[1], station.name))#station.relative_water_level())
+    #for station in stations:
+        #ls.append((station.measure_id, station.typical_range[1], station.name))#station.relative_water_level())
     
     #Set orientation of graphs
-    l = len(ls) - s
+    l = len(stations) - s
     sq = sqrt(l)
     if l > limit:
         row = 1
@@ -43,8 +43,8 @@ def plot_water_levels(stations, dt, limit, s):
     
     #Loop over all stations
     fig, axarr = plt.subplots(row, col)
-    for item in ls:
-        dates, levels = fetch_measure_levels(item[0],
+    for station in stations:
+        dates, levels = fetch_measure_levels(station.measure_id,
                                              dt=datetime.timedelta(days=dt))
         if levels == []:
             pass
@@ -55,7 +55,12 @@ def plot_water_levels(stations, dt, limit, s):
             axarr[i, j].plot(dates, levels)
             axarr[i, j].xaxis.set_major_locator(days)
             axarr[i, j].xaxis.set_major_formatter(daysFmt)
-            axarr[i, j].set_title(item[2])
+            axarr[i, j].set_title(station.name)
+            line1 = axarr[i, j].axhline(y=station.typical_range[0], c='g',
+                 label='Typical low', linestyle='--')
+            line2 = axarr[i, j].axhline(y=station.typical_range[1], c='r',
+                 label='Typical high', linestyle='--')
+            plt.legend(handles=[line2, line1])
             #Algorithm to move from top to bottom, left to right
             if i < row-1:
                 i += 1
@@ -63,6 +68,7 @@ def plot_water_levels(stations, dt, limit, s):
                 j += 1
                 i = 0
             plt.subplots_adjust(bottom=0.02, right=0.98, left=0.02, top=0.98)
+            
          
         #Special case for one dimensional grid    
         elif l == 2:
@@ -70,14 +76,14 @@ def plot_water_levels(stations, dt, limit, s):
             axarr[i].plot(dates, levels)
             axarr[i].xaxis.set_major_locator(days)
             axarr[i].xaxis.set_major_formatter(daysFmt)
-            axarr[i].set_title(item[2])
+            axarr[i].set_title(station.name)
             
             i += 1
             plt.subplots_adjust(bottom=0.02, right=0.98, left=0.02, top=0.98)
         #On same graph if no. of stations greater than limit and if only one 
         #graph            
         else:
-            plt.plot(dates,levels, label=item[2])
+            plt.plot(dates,levels, label=station.name)
             plt.subplots_adjust(bottom=0.02, right=0.9, left=0.02, top=0.98)
             plt.legend(bbox_to_anchor=(1.005, 1), loc=2, borderaxespad=0.)
             
