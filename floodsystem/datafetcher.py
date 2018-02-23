@@ -128,13 +128,17 @@ def fetch_measure_levels(measure_id, dt):
     dates, levels = [], []
 
     for measure in data['items']:
-        # Convert date-time string to a datetime object
-        d = dateutil.parser.parse(measure['dateTime'])
+        if len(measure) == 4:
+            # Convert date-time string to a datetime object
+            d = dateutil.parser.parse(measure['dateTime'])
 
-        # Append data
-        dates.append(d)
-        levels.append(measure['value'])
-
+            # Append data
+            dates.append(d)
+            levels.append(measure['value'])
+            
+        else:
+            break
+            dates, levels = None, None
     return dates, levels
 
 def count_inconsistent_sets(stations, dt):
@@ -146,7 +150,13 @@ def count_inconsistent_sets(stations, dt):
     for station in stations:
         dates, levels = fetch_measure_levels(station.measure_id, 
                                              dt=datetime.timedelta(days=dt))
+        if dates and levels == None:
+            c += 1
+            
         if levels == []:
             c +=1
+        
+        elif station.relative_water_level() == None:
+            c += 1
             
     return c

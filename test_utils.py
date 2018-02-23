@@ -56,3 +56,17 @@ def test_reverse_sort():
     assert list1[0] == c
     assert list1[1] == a
     assert list1[2] == b
+    
+def test_down_right_config():
+    
+    row1, col1 = floodsystem.utils.down_right_config(9, 10)
+    row2, col2 = floodsystem.utils.down_right_config(13, 20)
+    row3, col3 = floodsystem.utils.down_right_config(12, 10)
+    
+    assert row1 == 3
+    assert col1 == 3
+    assert row2 == 4
+    assert col2 == 4
+    assert row3 == 1
+    assert col3 == 1
+    

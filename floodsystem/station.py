@@ -64,18 +64,3 @@ class MonitoringStation:
             return relativewaterlevel
         else:
             return None
-        
-def inconsistent_typical_range_stations(stations):
-    """Given a list of stations objects, returns a list of stations that have
-    inconsistent data."""
-    
-    #Initialise variables
-    ls = []
-    
-    for station in stations:
-        if station.typical_range_consistent() == False:
-            ls.append(station)
-        else:
-            pass
-        
-    return ls

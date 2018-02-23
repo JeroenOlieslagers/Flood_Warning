@@ -41,5 +41,4 @@ def test_inconsistent_monitoring_station_data():
     s = MonitoringStation(s_id, m_id, label, coord, trange, river, town,
                           dateOpened)
     
-    assert s.typical_range_consistent() == False
-    
+    assert s.typical_range_consistent() == False    

@@ -1,5 +1,5 @@
 from floodsystem.plot import plot_water_levels
-from floodsystem.stationdata import build_station_list
+from floodsystem.stationdata import build_station_list, update_water_levels
 from floodsystem.utils import sorted_by_key
 from floodsystem.datafetcher import fetch_measure_levels
 from floodsystem.datafetcher import count_inconsistent_sets
@@ -8,20 +8,21 @@ def run():
     """Requirement for Task 2E"""
     #Initialise variables
     data = build_station_list()
+    update_water_levels(data)
     ls = []
     ID = []
     
     #Number of days in past taken data from
-    dt = 8
+    dt = 7
     #How many graphs per window
     limit = 4
     #How many stations
-    number = 5
+    number = 6
     
     #Create list of measuring_id's sorted by water level
     for station in data:
-        if station.typical_range_consistent() == True:
-            ls.append((station, station.typical_range[1]))#station.relative_water_level()
+        if station.typical_range_consistent() == True and station.relative_water_level() != None:
+            ls.append((station, station.relative_water_level()))
 
     ls = sorted_by_key(ls, 1)
     
